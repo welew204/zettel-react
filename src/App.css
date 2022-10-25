@@ -23,10 +23,18 @@ body {
   overflow: scroll;
 }
 
+.side--notes-each > h4 {
+  font-size: 16px;
+}
+
 .side--notes {
   display: block;
   overflow: scroll;
   height: 75vh;
+}
+
+.side--notes-trash {
+  background-color: lightgrey;
 }
 
 .rs-sidenav-collapse-in .rs-dropdown-menu {

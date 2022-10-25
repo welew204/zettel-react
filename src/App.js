@@ -33,6 +33,18 @@ function App() {
     .catch((error) => {console.error('There has been a problem with your fetch operation:', error)});
     setNewNoteId(0)
   }
+  
+  function deleteNoteAPI(noteId, ind) {
+    fetch(`http://localhost:8000/${noteId}/delete`, { 
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(notes[ind].id),
+      mode: 'cors'
+    })
+    .then(console.log(`Dis shit got deleted: ${noteId}`))
+    .catch((error) => {console.error('There has been a problem with your fetch operation:', error)});
+    setNewNoteId(0)
+  }
 
   function createNote() {setNotes(oldNotes => {
     const nnote = {...data_temp[0]}
@@ -54,9 +66,30 @@ function App() {
     return newNotes
   })
   }
+
+  React.useEffect(() => {
+    setCurrentNoteId((notes[0] && notes[0].id) || 1)
+    console.log(`AFTER: ${notes.length}`)
+    console.log(`POST- Current ID: ${currentNoteId}`)
+    
+  }, [notes.length])
+  
+  function deleteNote(noteId) {
+    console.log(`BEFORE: ${notes.length}`)
+    console.log(`${noteId}`)
+    const targ = notes.find(note => {
+      return note.id === currentNoteId
+    })
+    console.log(targ)
+    const ind = notes.indexOf(targ)
+    setNotes(prev => prev.filter(item => item !== targ))
+    console.log(`PRE- Current ID: ${currentNoteId}`)
+    return deleteNoteAPI(noteId, ind)
+    /* const byebye = notes.splice(ind) */
+  }
   
   function findCurrentNote() {
-    /* console.log("found current note: ", currentNoteId) */
+    /* console.log("finding current note @ ... ", currentNoteId) */
     return notes.find(note => {
       return note.id === currentNoteId
     }) || notes[0]
@@ -96,6 +129,7 @@ function App() {
         notes = {notes}
         currentNote={findCurrentNote()}
         setCurrentNoteId={setCurrentNoteId}
+        delete={deleteNote}
       />
       <Split
         sizes={[70, 30]}

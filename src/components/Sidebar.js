@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import { Sidenav, Nav, Toggle } from "rsuite"
-import { Creative, Branch, AddOutline, PushMessage } from '@rsuite/icons';
+import { Creative, Branch, AddOutline, PushMessage} from '@rsuite/icons';
+import {TbTrashX} from 'react-icons/tb';
 
 /* import "./Sidebar.css" */
 
@@ -18,14 +19,30 @@ export default function Sidebar(props) {
         return(
             <Nav.Item
                 key={note.id}
-                onClick={() => props.setCurrentNoteId(note.id)}            
-                >{note.title}
+                onClick={() => props.setCurrentNoteId(note.id)}
+                className="side--notes-each"
+                style={
+                  props.currentNote.id === note.id ?
+                  {"backgroundColor": "lightgray"} :
+                  null
+                }>
+                  <h4>
+                    {note.title}
+                  </h4>
+                  {props.currentNote.id === note.id ?                   
+                  <button 
+                    onClick={() => props.delete(note.id)}
+                    className="side--notes-trash">
+                      <TbTrashX />
+                  </button> :
+                  null
+                }
             </Nav.Item>
             )
         })
 
     return(
-    <div className="side" style={expanded ? { width: 240 } : { width: 90 }}>
+    <div className="side" style={expanded ? { width: 250 } : { width: 90 }}>
       <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']}>
         <Sidenav.Body>
           <Nav activeKey={activeKey} onSelect={setActiveKey}>
