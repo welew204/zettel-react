@@ -1,23 +1,120 @@
-import logo from './logo.svg';
+import React from 'react';
+/* import { BrowserRouter as Router, Routes, Route } from "react-router-dom" */
 import './App.css';
+import Editor from './components/Editor';
+import Sidebar from './components/Sidebar';
+import LinkNav from './components/LinkNav';
+import Split from "react-split";
+import data_temp from "./data_template.json"
 
 function App() {
+  const [notes, setNotes] = React.useState(data_temp)
+  const [newNoteId, setNewNoteId] = React.useState(0)
+  const [currentNoteId, setCurrentNoteId] = React.useState((notes[0] && notes[0].id) || 1)
+  
+  React.useEffect(() => {
+    fetch('http://localhost:8000/api_json', { method: 'get', mode: 'cors' })
+    .then(response => {return response.json()})
+    .then(data => {
+      return setNotes(prev => data.posts)
+    }
+    )
+  }, [])
+  
+  function saveChanges() {
+    fetch('http://localhost:8000/update', { 
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(notes),
+      mode: 'cors'
+    })
+    .then(res => res.json())
+    .then(data => setNotes(prev => data.posts))
+    .catch((error) => {console.error('There has been a problem with your fetch operation:', error)});
+    setNewNoteId(0)
+  }
+
+  function createNote() {setNotes(oldNotes => {
+    const nnote = {...data_temp[0]}
+    const newNotes = [...oldNotes]
+    nnote.id = "u" + newNoteId.toString()
+    nnote.title = "TITLE here"
+    var tuday = new Date()
+    var dd = String(tuday.getDate()).padStart(2, '0');
+    var mm = String(tuday.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = tuday.getFullYear();
+    tuday = yyyy + '-' + mm + '-' + dd;
+    nnote.published = tuday
+    /* author will need to be updated w/ current user eventually */
+    nnote.author = "WHB"
+    newNotes.unshift(nnote)
+    setCurrentNoteId(nnote.id)
+    setNewNoteId(prev => prev+1)
+    
+    return newNotes
+  })
+  }
+  
+  function findCurrentNote() {
+    /* console.log("found current note: ", currentNoteId) */
+    return notes.find(note => {
+      return note.id === currentNoteId
+    }) || notes[0]
+  }
+  
+  function updateNotes(text) {setNotes(oldNotes => {
+    const newNotes = []
+    for (let i = 0; i < oldNotes.length; i++) {
+      const oldNote = oldNotes[i];
+      if (oldNote.id === currentNoteId) {
+        newNotes.unshift({...oldNote, body_md: text})
+      }
+      else {
+        newNotes.push(oldNote)
+      }
+      }
+      return newNotes
+  })}
+
+  function updateTitle(text) {setNotes(oldNotes => {
+    const newNotes = []
+    for (let i = 0; i < oldNotes.length; i++) {
+      const oldNote = oldNotes[i];
+      if (oldNote.id === currentNoteId) {
+        newNotes.unshift({...oldNote, title: text.target.value})
+      }
+      else {
+        newNotes.push(oldNote)
+      }
+      }
+      return newNotes
+  })}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Sidebar
+        notes = {notes}
+        currentNote={findCurrentNote()}
+        setCurrentNoteId={setCurrentNoteId}
+      />
+      <Split
+        sizes={[70, 30]}
+        gutterSize={10}
+        gutterAlign="center"
+        snapOffset={10}
+        dragInterval={1}
+        direction="horizontal"
+        cursor="col-resize"
+        className='split'>
+        <Editor
+          updateTitle={updateTitle}
+          createNote={createNote}
+          currentNote={findCurrentNote()}
+          updateNotes={updateNotes}
+          saveNotes={saveChanges}
+        />
+        <LinkNav/>
+      </Split>
     </div>
   );
 }

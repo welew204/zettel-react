@@ -1,38 +1,164 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app {
+  display: grid;
+  grid-template-columns: auto auto auto;
+/*   justify-content: space-around; */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* SIDEBAR styles */
+@import "rsuite/dist/rsuite.css";
+
+.side {
+  display: block;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.side--notes {
+  display: block;
+  overflow: scroll;
+  height: 75vh;
+}
+
+.rs-sidenav-collapse-in .rs-dropdown-menu {
+  overflow: scroll;
+}
+
+/* .side--notes-drawer {
+  margin-left: 0px;
+}
+.side--notes-drawer-active {
+  margin-left: 56px;
+} */
+
+.side::-webkit-scrollbar {
+  border-radius: 5px;
+  width: 10px;
+}
+.side::-webkit-scrollbar-thumb {
+  background-color: hsla(0,0%,55%,.3);
+  border-radius: 5px;
+}
+.side::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+/* EDITOR styling */
+
+.editor--meta {
   display: flex;
-  flex-direction: column;
+  /* justify-content: space-between; */
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border-style: solid;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
 }
 
-.App-link {
-  color: #61dafb;
+.editor p {
+  font-size: 1vw;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.editor--meta h3 {
+  font-size: 2vw;
+}
+
+.editor--meta-pubDate {
+  margin-right: 1rem;
+}
+
+.editor--note-title {
+  font-size: 2.7vw;
+}
+
+.editor--note-title-edit {
+  width: 50vw;
+  font-size: 2.6vw;
+}
+
+.editor--filler {
+  flex-grow: 2;
+}
+
+.editor {
+  /* flex-grow: 1; */
+  max-height: 100vh;
+  height: 75%;
+  min-height: 700px;
+}
+
+/* THIS is not really working... */
+.mde-preview {
+  height: 10px;
+  overflow: scroll; 
+}
+
+.editor--btn {
+  display: block;
+  border-radius: 5px;
+  border-style: solid; 
+  border-width: 2px;
+  height: auto;
+  width: auto;
+  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding:10px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition-duration: 0.2s;
+  background-color: whitesmoke;
+  color: black;
+  font-size: large;
+}
+
+.editor--btn:hover {
+  background-color: lightgreen;
+  font-weight: 500;
+}
+
+/* LINKNAV styling */
+
+.split {
+  display: flex;
+  width: 100%;
+}
+
+.linknav {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.linknav--links {
+  border-style: solid;
+  flex-grow: 1;
+  
+}
+
+.linknav--suggs {
+  border-style: solid;
+  flex-grow: 1;
+}
+
+.gutter {
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+}
+
+.gutter.gutter-horizontal:hover {
+  cursor: col-resize;
 }
