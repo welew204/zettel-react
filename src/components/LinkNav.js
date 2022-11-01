@@ -1,22 +1,34 @@
 import React from "react";
 
+import TagInput from "../helpers/TagInput";
+
+
 
 export default function LinkNav() {
+    
+
     return(
         <section className="linknav">
-            <div className="linknav--links">
-                <ul>
-                    <li>Link 1</li>
-                    <li>Link 2</li>
-                    <li>Link 3</li>
-                </ul>
+            <div className="linknav--topics">
+                <h2 className="linknav--headers">Topics</h2>
+                <div className="linknav--topics-li">
+                    <ul>
+                        <li>Selected Topic 1</li>
+                    </ul>
+                    <ul>
+                        <li>Possible Link 1</li>
+                        <li>Possible Link 2</li>
+                        <li>Possible Link 3</li>
+                    </ul>
+                </div>
             </div>
-            <div className="linknav--suggs">
-                <ul>
-                    <li>Link Suggestion 1</li>
-                    <li>Link Suggestion 2</li>
-                    <li>Link Suggestion 3</li>
-                </ul>
+            <div className="linknav--content">
+                <h2 className="linknav--headers">Content</h2>
+                <div className="linknav--content-li">
+                    <ul className="linknav--content-tags">
+                        <TagInput />
+                    </ul>
+                </div>
             </div>
         </section>
         

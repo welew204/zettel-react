@@ -30,7 +30,7 @@ export default function Editor(props) {
                     <h3>{props.currentNote.author}</h3>
                 </div>
                 <div className="editor--filler"></div>
-                <button onClick={props.saveNotes} className="editor--btn">Save Changes</button>
+                <button onClick={props.saveNotes} className="editor--btn" style={props.newNotes > 0 ? {"backgroundColor":"yellow"} : null}>Save Changes</button>
                 <button onClick={props.createNote} className="editor--btn">New Note</button>
             </span>
             <NoteTitle

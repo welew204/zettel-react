@@ -63,6 +63,15 @@ body {
 
 /* EDITOR styling */
 
+.split {
+  display: flex;
+
+}
+.editor {
+  max-width: 66vw !important;
+  margin: 5px;
+}
+
 .editor--meta {
   display: flex;
   /* justify-content: space-between; */
@@ -107,7 +116,7 @@ body {
 
 /* THIS is not really working... */
 .mde-preview {
-  height: 10px;
+  height: 75% !important;
   overflow: scroll; 
 }
 
@@ -134,27 +143,52 @@ body {
   font-weight: 500;
 }
 
-/* LINKNAV styling */
+/* LINKNAV//tags styling */
 
-.split {
-  display: flex;
-  width: 100%;
+.tag-sel {
+  cursor:pointer;
+  color:black;
+  font-weight:bold;
+  background-color: aqua;
+  border-width: 2px;
+  
+}
+
+.tag-unsel {
+  cursor:pointer;
+  color: gray;
+  background-color: whitesmoke;
+  font-weight:light;
 }
 
 .linknav {
   display: flex;
   flex-flow: column nowrap;
+  align-content: center;
 }
 
-.linknav--links {
-  border-style: solid;
-  flex-grow: 1;
-  
+.linknav--headers {
+  text-align: center;
 }
 
-.linknav--suggs {
+.linknav--topics {
   border-style: solid;
   flex-grow: 1;
+}
+
+.linknav--topics-li {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.linknav--content {
+  border-style: solid;
+  flex-grow: 1;
+}
+
+.linknav--content-li {
+  display: grid;
+  grid-template-rows: auto auto;
 }
 
 .gutter {

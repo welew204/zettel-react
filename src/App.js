@@ -69,21 +69,14 @@ function App() {
 
   React.useEffect(() => {
     setCurrentNoteId((notes[0] && notes[0].id) || 1)
-    console.log(`AFTER: ${notes.length}`)
-    console.log(`POST- Current ID: ${currentNoteId}`)
-    
   }, [notes.length])
   
   function deleteNote(noteId) {
-    console.log(`BEFORE: ${notes.length}`)
-    console.log(`${noteId}`)
     const targ = notes.find(note => {
       return note.id === currentNoteId
     })
-    console.log(targ)
     const ind = notes.indexOf(targ)
     setNotes(prev => prev.filter(item => item !== targ))
-    console.log(`PRE- Current ID: ${currentNoteId}`)
     return deleteNoteAPI(noteId, ind)
     /* const byebye = notes.splice(ind) */
   }
@@ -133,6 +126,7 @@ function App() {
       />
       <Split
         sizes={[70, 30]}
+        minSize={[600, 300]}
         gutterSize={10}
         gutterAlign="center"
         snapOffset={10}
@@ -141,6 +135,7 @@ function App() {
         cursor="col-resize"
         className='split'>
         <Editor
+          newNotes={newNoteId}
           updateTitle={updateTitle}
           createNote={createNote}
           currentNote={findCurrentNote()}
