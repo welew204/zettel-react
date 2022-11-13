@@ -27,13 +27,13 @@ export default function TagInput() {
   const [typing, setTyping] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   
-  console.log(tags)
+  /* console.log(tags) */
 
   function handleSelect(e) {
-      console.log(tags)
+      /* console.log(tags) */
     return(setTags(prev => {
     const to_find = e.target.innerText.slice(1)
-    console.log(to_find)
+    /* console.log(to_find) */
     let newTags = []
     
     for (let i = 0; i < prev.length; i++) {
