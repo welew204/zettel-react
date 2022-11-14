@@ -1,6 +1,14 @@
-# Getting Started with Create React App
+# React Front End for Zettel
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). See bottom of doc for boilerplate Create React App scripts.
+
+This app relies on:
+- react-mde library for the Markdown editor (and preview)
+- rsuite components throughout (https://rsuitejs.com)
+- react-icons for an icon here and there
+- nanoid (for the 'tag' functionality)
+- D3 for the graphical visualization
+
 
 ## Available Scripts
 
