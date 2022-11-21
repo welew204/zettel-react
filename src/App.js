@@ -5,13 +5,22 @@ import Editor from './components/Editor';
 import Sidebar from './components/Sidebar';
 import LinkNav from './components/LinkNav';
 import Split from "react-split";
-import data_temp from "./data_template.json"
+import data_temp from "./data_template.json";
+import { format, subDays } from 'date-fns';
+
+import BarChart from './components/BarChart';
+import BubbleGraph from './components/BubbleGraph';
+import BubGrph from './components/FtguBubGraph';
+import BG_fake_data from './helpers/BG_fdata';
+import d3FakeData from './helpers/d3FakeData.json' 
+
 
 function App() {
   const [notes, setNotes] = React.useState(data_temp)
   const [newNoteId, setNewNoteId] = React.useState(0)
   const [needsSave, setNeedsSave] = React.useState(false)
-  const [currentNoteId, setCurrentNoteId] = React.useState((notes[0] && notes[0].id) || 1)
+  const [currentNoteId, setCurrentNoteId] = React.useState((notes[0]?.id) || 1)
+  const [activeKey, setActiveKey] = React.useState('3')
   
   let initRender = React.useRef(true);
 
@@ -68,12 +77,9 @@ function App() {
     const newNotes = [...oldNotes]
     nnote.id = "u" + newNoteId.toString()
     nnote.title = "TITLE here"
-    var tuday = new Date()
-    var dd = String(tuday.getDate()).padStart(2, '0');
-    var mm = String(tuday.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = tuday.getFullYear();
-    tuday = yyyy + '-' + mm + '-' + dd;
+    const tuday = format(new Date(), 'MM-dd-yyyy')
     nnote.published = tuday
+    /* USING date-fns ... TO TEST: console.log(nnote.published) */
     /* author will need to be updated w/ current user eventually */
     nnote.author = "WHB"
     newNotes.unshift(nnote)
@@ -136,6 +142,27 @@ function App() {
       return newNotes
   })}
 
+  const view = () => {
+    if(activeKey === '1' | activeKey === '3') {
+      return(
+        <Editor 
+          newNotes={newNoteId}
+          needsSave={needsSave}
+          updateTitle={updateTitle}
+          createNote={createNote}
+          currentNote={findCurrentNote()}
+          updateNotes={updateNotes}
+          saveNotes={() => saveChanges(notes[currentNoteId])}
+      />
+      )} else {return(
+        /* put D3 component HERE */
+        <BubbleGraph 
+          data={BG_fake_data}
+        />
+      );
+      }
+    }
+
   return (
     <div className="app">
       <Sidebar
@@ -143,6 +170,8 @@ function App() {
         currentNote={findCurrentNote()}
         setCurrentNoteId={setCurrentNoteId}
         delete={deleteNote}
+        activeKey={activeKey}
+        setActiveKey={setActiveKey}
       />
       <Split
         sizes={[70, 30]}
@@ -154,16 +183,12 @@ function App() {
         direction="horizontal"
         cursor="col-resize"
         className='split'>
-        <Editor
-          newNotes={newNoteId}
-          needsSave={needsSave}
-          updateTitle={updateTitle}
-          createNote={createNote}
-          currentNote={findCurrentNote()}
-          updateNotes={updateNotes}
-          saveNotes={() => saveChanges(notes[currentNoteId])}
-        />
-        <LinkNav/>
+          <div>
+            {view()}
+          </div>
+          <div>
+            <LinkNav/>
+          </div>
       </Split>
     </div>
   );

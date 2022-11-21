@@ -8,11 +8,12 @@ import {TbTrashX} from 'react-icons/tb';
 
 export default function Sidebar(props) {
     const [expanded, setExpanded] = React.useState(true)
-    const [activeKey, setActiveKey] = React.useState('1')
+    
     function showSidebar() {
         setExpanded(prev => !prev)
     }
 
+    console.log(props.activeKey)
     const notesArray = props.notes
     
     const notesElements = notesArray.map((note) => {
@@ -45,7 +46,7 @@ export default function Sidebar(props) {
     <div className="side" style={expanded ? { width: 250 } : { width: 90 }}>
       <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']}>
         <Sidenav.Body>
-          <Nav activeKey={activeKey} onSelect={setActiveKey}>
+          <Nav activeKey={props.activeKey} onSelect={props.setActiveKey}>
             <Nav.Item eventKey="1" icon={<Creative />}>
               Editor
             </Nav.Item>
